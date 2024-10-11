@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tareas</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScd_x9zvq_8n8VzLaisSYBBQ0sEv0i33k6gQ&s') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .task-container {
+            background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco semitransparente */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.3);
+            width: 400px; /* Ancho fijo para el contenedor */
+            max-height: 80vh; /* Altura máxima */
+            overflow-y: auto; /* Desplazamiento vertical si es necesario */
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #333; /* Color oscuro para el texto */
+            text-align: center;
+        }
+
+        #taskInput {
+            width: calc(100% - 22px); /* Resta el padding */
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            transition: background-color 0.3s ease;
+            width: 100%; /* Botones de ancho completo */
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .task-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .task-item.completed {
+            text-decoration: line-through; /* Tachar tareas completadas */
+            color: #aaa; /* Color más claro para tareas completadas */
+        }
+
+        .delete-button {
+            background-color: #ff4d4d;
+        }
+
+        .delete-button:hover {
+            background-color: #e60000;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="task-container">
+        <h1>Lista de Tareas</h1>
+        <input type="text" id="taskInput" placeholder="Agregar nueva tarea...">
+        <button id="addTaskButton">Agregar Tarea</button>
+        <div id="taskList"></div> <!-- Lista de tareas -->
+    </div>
+
+    <script>
+        const taskInput = document.getElementById('taskInput');
+        const addTaskButton = document.getElementById('addTaskButton');
+        const taskList = document.getElementById('taskList');
+
+        // Función para agregar una tarea
+        addTaskButton.addEventListener('click', () => {
+            const taskText = taskInput.value.trim();
+            if (taskText) {
+                const taskItem = document.createElement('div');
+                taskItem.className = 'task-item';
+                
+                // Elemento de tarea
+                const taskLabel = document.createElement('span');
+                taskLabel.textContent = taskText;
+                taskItem.appendChild(taskLabel);
+
+                // Botón para marcar como completada
+                const completeButton = document.createElement('button');
+                completeButton.textContent = 'Completar';
+                completeButton.addEventListener('click', () => {
+                    taskLabel.classList.toggle('completed');
+                });
+                taskItem.appendChild(completeButton);
+
+                // Botón para eliminar la tarea
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Eliminar';
+                deleteButton.className = 'delete-button';
+                deleteButton.addEventListener('click', () => {
+                    taskList.removeChild(taskItem);
+                });
+                taskItem.appendChild(deleteButton);
+
+                // Agregar la tarea a la lista
+                taskList.appendChild(taskItem);
+                taskInput.value = ''; // Limpiar el campo de entrada
+            } else {
+                alert("Por favor, ingresa una tarea."); // Aviso si está vacío
+            }
+        });
+    </script>
+
+</body>
+</html>
